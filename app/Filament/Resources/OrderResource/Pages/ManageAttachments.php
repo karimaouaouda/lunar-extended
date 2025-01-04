@@ -105,18 +105,59 @@ class ManageAttachments extends ManageRecords
                 DeleteAction::make()->requiresConfirmation(),
                 Action::make('download')
                     ->openUrlInNewTab()
-                    ->url(function(Attachment $record){
-                        return Storage::exists('app/public/' . $record->logo )?
-                            response()->streamDownload(function () use ($record){
-                                echo Storage::disk('public')->readStream($record->logo);
-                            })->getContent():
+                    ->action(function(Attachment $record){
+                        return Storage::disk('public')->exists($record->logo )?
+                            response()->download(Storage::disk('public')->path($record->logo)):
                             null;
-                    })
+                    }),
+
+                Action::make('update')
+                    ->form([
+                        Hidden::make('id')
+                            ->default(fn($record) => $record->id),
+                        TextInput::make('logo_heights')
+                            ->numeric()
+                            ->columnSpan(1)
+                            ->required()
+                            ->default(fn($record) => $record->logo_heights),
+                        ColorPicker::make('logo_color')
+                            ->required()
+                            ->columnSpan(1)
+                            ->default(fn($record) => $record->logo_color),
+                        TextInput::make('printing_type')
+                            ->columnSpan(1)
+                            ->default(fn($record) => $record->printing_type),
+                        Textarea::make('notes')
+                            ->default(fn($record) => $record->notes)
+                            ->columns(3),
+                        FileUpload::make('logo')
+                            ->directory(Config::get('lunar.orders.attachments.directory', 'attachments'))
+                            ->disk(Config::get('lunar.orders.attachments.disk', 'public'))
+                            ->acceptedFileTypes(Config::get('lunar.orders.attachments.types', ['image/*']))
+                            ->default(fn($record) => $record->logo),
+                    ])->action(function (array $data) {
+                        $model = Attachment::find($data['id']);
+
+                        if (Storage::disk(Config::get('lunar.orders.attachments.disk', 'public'))->exists($model->logo)){
+                            Storage::disk(Config::get('lunar.orders.attachments.disk', 'public'))->delete($model->logo);
+                        }
+
+                        $model->update($data);
+
+                        $model->save();
+
+                    })->modalSubmitActionLabel('update attachment')
             ])
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
                     ->prefix('#'),
+                TextColumn::make('file_type')
+                    ->label('File Type')
+                    ->getStateUsing(fn($record) => $record->logo)
+                    ->badge()
+                    ->color(Color::Blue)
+                    ->formatStateUsing(fn($state) => Storage::disk(Config::get('lunar.orders.attachments.disk', 'public'))->mimeType($state)),
                 TextColumn::make('logo_heights')
                     ->label('Logo Height'),
                 TextColumn::make('logo_color')

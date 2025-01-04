@@ -105,10 +105,15 @@ class OrderItemsTable extends ViewPageExtension
 
                     TextColumn::make('attachments')
                         ->getStateUsing(fn ($record) => 'manage order line attachments')
-                        ->color(Color::Blue)
-                        ->openUrlInNewTab(true)
-                        ->url(fn ($record) => route('filament.lunar.resources.orders.attachments', ['record' => $record->order->id, 'line' => $record->id])),
-                ]),
+                        ->openUrlInNewTab()
+                        ->alignEnd()
+                        ->url(fn ($record) => route('filament.lunar.resources.orders.attachments', ['record' => $record->order->id, 'line' => $record->id]))
+                        ->extraAttributes([
+                            'class' => 'mt-4 text-white',
+                            'style' => 'width:fit-content;padding:0.125rem 0.5rem;background:dodgerblue;color:white!important;border-radius:5px;'
+                        ])
+
+                    ]),
             ])
                 ->collapsed()
                 ->collapsible(),
