@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(CollectionSeeder::class);
+        $this->call(SupplierSeeder::class);
         $this->call(AttributeSeeder::class);
         $this->call(TaxSeeder::class);
         $this->call(ProductSeeder::class);

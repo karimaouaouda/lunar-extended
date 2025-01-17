@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Filament\Resources\AttachementResource;
 use App\Filament\Resources\OrderResource as ResourcesOrderResource;
 use App\Filament\Resources\OrderResource\Pages\ManageOrder as PagesManageOrder;
+use App\Filament\Resources\SupplierResource;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Filament\Resources\OrderResource;
 use Lunar\Admin\Support\Facades\LunarPanel;
@@ -16,12 +17,12 @@ class LunarExtensionsProvider extends ServiceProvider
      */
     public function register(): void
     {
-        /* LunarPanel::panel(function($panel){
+        LunarPanel::panel(function($panel){
             return $panel
                 ->resources([
-                    AttachementResource::class,
+                    SupplierResource::class,
                 ]);
-        })->register(); */
+        })->register();
 
 
     }

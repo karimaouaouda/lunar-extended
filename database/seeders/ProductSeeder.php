@@ -70,6 +70,7 @@ class ProductSeeder extends AbstractSeeder
                 ]);
 
                 $productModel = Product::create([
+                    'supplier_id' => rand(1, 10),
                     'attribute_data' => $attributeData,
                     'product_type_id' => $productType->id,
                     'status' => 'published',

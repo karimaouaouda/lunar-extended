@@ -4,12 +4,15 @@ namespace App\Providers;
 
 use App\Filament\Resources\OrderResource as ResourcesOrderResource;
 use App\Filament\Resources\OrderResource\Pages\ManageOrder as PagesManageOrder;
+use App\Filament\Resources\ProductResource\Pages\ListProducts;
 use App\Modifiers\ShippingModifier;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Filament\Resources\OrderResource;
 use Lunar\Admin\Filament\Resources\OrderResource\Pages\ManageOrder;
+use Lunar\Admin\Filament\Resources\ProductResource;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Base\ShippingModifiers;
+use Lunar\Models\Product;
 use Lunar\Shipping\ShippingPlugin;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,7 +30,10 @@ class AppServiceProvider extends ServiceProvider
             ->register();
 
         LunarPanel::extensions([
+            Product::class => \App\Models\Product::class,
+            ProductResource\Pages\ListProducts::class => ListProducts::class,
             OrderResource::class => ResourcesOrderResource::class,
+            ProductResource::class => \App\Filament\Resources\ProductResource::class,
             OrderResource\Pages\Components\OrderItemsTable::class => ResourcesOrderResource\Pages\Components\OrderItemsTable::class
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OrderResource\Pages\Components;
 
+use App\Models\Attachment;
 use Closure;
 use Filament\Forms;
 use Filament\Infolists\Components\Actions;
@@ -104,7 +105,10 @@ class OrderItemsTable extends ViewPageExtension
                         }),
 
                     TextColumn::make('attachments')
-                        ->getStateUsing(fn ($record) => 'manage order line attachments')
+                        ->getStateUsing(function ($record){
+                            $count = Attachment::query()->where('order_line_id', $record->id)->count();
+                            return "( {$count} ) manage order line attachments";
+                        })
                         ->openUrlInNewTab()
                         ->alignEnd()
                         ->url(fn ($record) => route('filament.lunar.resources.orders.attachments', ['record' => $record->order->id, 'line' => $record->id]))
