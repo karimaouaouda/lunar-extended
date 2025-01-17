@@ -89,6 +89,7 @@ class SupplierResource extends Resource
                     ->badge()
                     ->getStateUsing(fn($record) => $record->address?->state()->first()->name ?? 'no address'),
                 Tables\Columns\TextColumn::make('website_url')
+                    ->copyable()
                     ->extraAttributes([
                         'class' => 'text-sm'
                     ])
