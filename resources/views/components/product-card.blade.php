@@ -1,7 +1,7 @@
 @props(['product'])
 
 <a class="block group"
-   href="{{ route('product.view', $product->defaultUrl->slug) }}"
+   href="{{ route('product.view', $product->defaultUrl?->slug ?? 'fd') }}"
    wire:navigate
 >
     <div class="overflow-hidden rounded-lg aspect-w-1 aspect-h-1">

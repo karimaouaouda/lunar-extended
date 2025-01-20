@@ -28,7 +28,6 @@ class ProductResource extends ResourceExtension
             ...$table->getColumns(),
             \Filament\Tables\Columns\TextColumn::make('id')
                 ->getStateUsing(fn($record) => $record->id)
-
         ]);
     }
 }

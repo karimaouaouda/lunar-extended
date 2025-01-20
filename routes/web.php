@@ -8,6 +8,8 @@ use App\Livewire\ProductPage;
 use App\Livewire\SearchPage;
 use App\Lunar\Resources\AttachementResource;
 use Illuminate\Support\Facades\Route;
+use Lunar\Models\Collection;
+use Lunar\Models\Url;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,5 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+
