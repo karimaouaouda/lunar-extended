@@ -16,6 +16,7 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'attribute_data' => $this->attribute_data,
             'images' => MediaResource::collection($this->images),
             'brand' => BrandResource::make($this->brand),
             'prices' => PriceResource::collection($this->prices),
