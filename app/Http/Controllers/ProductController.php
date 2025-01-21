@@ -27,7 +27,12 @@ class ProductController extends Controller
                 'element.products.defaultUrl',
             ])->first();
 
+        if($url->isEmpty()){
+            abort(404, 'no collection with that name');
+        }
+
         $collection = $url?->element;
+
         $ids = [$collection->id];
         array_push($ids, ...$collection->descendants()->get('id')->pluck('id')->toArray());
 

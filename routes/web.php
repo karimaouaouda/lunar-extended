@@ -35,4 +35,7 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
-
+Route::get('/test', function(){
+    dd(config('media-library.media_model'));
+    return "d;";
+});
