@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/collections/{name}/products', [\App\Http\Controllers\ProductController::class, 'collection_products']);
-Route::get('/products/{product_id}', [\App\Http\Controllers\ProductController::class, 'show']);
+Route::post('fonts/create', [Controller::class, 'createFont']);
+
+Route::controller(\App\Http\Controllers\DesignController::class)
+    ->prefix('designs')
+    ->group(function(){
+        Route::post('/create', 'store');
+        Route::post('/{id}/update', 'update');
+        Route::post('/{id}/delete', 'destroy');
+
+    });
+
+Route::controller(\App\Http\Controllers\AlbumController::class)
+    ->prefix('albums')
+    ->group(function(){
+        Route::get('/{albumId}', 'fetchAlbum');
+        Route::post('/{albumId}/push-picture', 'pushPicture');
+    });
+
+Route::controller(\App\Http\Controllers\ProductController::class)
+    ->group(function(){
+
+        Route::get('/collections/{name}/products', 'collection_products');
+
+        Route::prefix('products')
+            ->group(function(){
+                Route::get('/', 'index');
+                Route::get('/{product_id}', 'show');
+            });
+
+    });

@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class MediaResource extends JsonResource
+class FontResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +15,9 @@ class MediaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            ...parent::toArray($request),
+            'name' => $this->name,
+            'path' => $this->name,
+            'css_url' => $this->css_url
         ];
     }
 }

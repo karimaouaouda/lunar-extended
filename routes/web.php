@@ -7,7 +7,9 @@ use App\Livewire\Home;
 use App\Livewire\ProductPage;
 use App\Livewire\SearchPage;
 use App\Lunar\Resources\AttachementResource;
+use App\Models\Font;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Lunar\Models\Collection;
 use Lunar\Models\Url;
 
@@ -36,6 +38,7 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
 Route::get('/test', function(){
-    dd(config('media-library.media_model'));
-    return "d;";
+    $font = Font::all()->first();
+    dd($font);
+    return 'hi';
 });

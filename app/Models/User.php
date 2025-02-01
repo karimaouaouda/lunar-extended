@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Lunar\Base\Traits\LunarUser;
-
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, LunarUser, Notifiable;
@@ -41,4 +43,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function album(){
+        return $this->hasOne(Album::class);
+    }
+
+    public function fonts(){
+        return $this->hasMany(Font::class);
+    }
+
+    public function designs(){
+        return $this->hasMany(Design::class);
+    }
 }
