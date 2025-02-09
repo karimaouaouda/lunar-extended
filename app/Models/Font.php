@@ -11,14 +11,18 @@ class Font extends Model
     protected $fillable = ['user_id', 'name', "name_ext", 'path', 'css_url'];
 
     public function getFontUrlAttribute(){
-        return asset('storage/' . $this->base_path . "user_{$this->user->id}/{$this->name_ext}");
+        return asset('storage/' . $this->base_path . "user_{$this->user->id}/{$this->name}/{$this->filename}");
     }
 
     public function generateCssFile(){
 
         $url = $this->getFontUrlAttribute();
+        $path = "/fonts/user_" . $this->user_id . "/";
+
         $template = "@font-face {
     font-family: '{$this->name}';
+    font-weight : '{$this->font_weight}';
+    font-style: '{$this->font_style}';
     src: url({$url}) format('embedded-opentype'), /* Internet Explorer */
          url({$url}) format('woff2'),             /* Super Modern Browsers */
          url({$url}) format('woff'),              /* Pretty Modern Browsers */
@@ -26,9 +30,7 @@ class Font extends Model
          url({$url}) format('svg');               /* Legacy iOS */
 }";
 
-        $filename = $this->name . ".css";
-
-        $path = $this->base_path . "user_{$this->user->id}/";
+        $filename = "fonts.css";
 
         Storage::disk('public')->append(
             $path . $filename,

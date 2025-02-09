@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'album' => AlbumResource::make($this->album),
+            'fonts' => FontResource::collection($this->fonts())
         ];
     }
 }
